@@ -4,7 +4,7 @@
     "created": "2021-05-17T21:01:47.586Z",
     "updated": "2021-05-17T21:02:45.587Z",
     "deleted": null,
-    "title": "Cross-site scripting in jspdf",
+    "title": "Cross-site scripting in asdasdasd",
     "found_by": {
       "link": "",
       "name": "Anonymous",
@@ -15,7 +15,7 @@
       "name": "Anonymous",
       "email": ""
     },
-    "module_name": "jspdf",
+    "module_name": "jspdf ",
     "cves": [
       "CVE-2020-7690"
     ],
@@ -36,7 +36,7 @@
     "created": "2021-05-17T20:54:50.856Z",
     "updated": "2021-05-17T20:56:34.930Z",
     "deleted": null,
-    "title": "cookie tossing attack",
+    "title": "cookie tossing attackss",
     "found_by": {
       "link": "",
       "name": "Anonymous",

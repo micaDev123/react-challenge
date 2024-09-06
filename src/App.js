@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { Vulnerabilities } from "./app/vulnerabilities/Vulnerabilities";
+import { Vulnerabilities } from "./app/Vulnerabilities/Vulnerabilities";
 
 function App() {
   return (
