@@ -1,28 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, CheckLabel, Fieldset, HeadingTwo, Label, Radio } from "ui/library";
 
 export const Filters = ({ setSearchQuery, setSortOrder, setSeverity, setStatus }) => {
-    const [localSearch, setLocalSearch] = useState("");
-    const [localSeverity, setLocalSeverity] = useState([]);
-    const [localStatus, setLocalStatus] = useState([]);
-    const [sortOrder, setLocalSortOrder] = useState("newest");
+    const [localSearch, setLocalSearch] = useState(localStorage.getItem("searchQuery") || "");
+    const [localSeverity, setLocalSeverity] = useState(JSON.parse(localStorage.getItem("severityFilter")) || []);
+    const [localStatus, setLocalStatus] = useState(JSON.parse(localStorage.getItem("statusFilter")) || []);
+    const [sortOrder, setLocalSortOrder] = useState(localStorage.getItem("sortOrder") || "newest");
+
+    useEffect(() => {
+        localStorage.setItem("searchQuery", localSearch);
+        localStorage.setItem("severityFilter", JSON.stringify(localSeverity));
+        localStorage.setItem("statusFilter", JSON.stringify(localStatus));
+        localStorage.setItem("sortOrder", sortOrder);
+    }, [localSearch, localSeverity, localStatus, sortOrder]);
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         setSearchQuery(localSearch);
         setSeverity(localSeverity);
         setStatus(localStatus);
-        setSortOrder(sortOrder);  // Ensure the parent component updates with the current sort order
+        setSortOrder(sortOrder);
     };
 
-    const handleCheckboxChange = (value, setState, state) => {
+    const handleCheckboxChange = (value, setState, state, key) => {
         const newState = state.includes(value) ? state.filter(item => item !== value) : [...state, value];
         setState(newState);
+        localStorage.setItem(key, JSON.stringify(newState));  // Persist changes to localStorage
     };
 
     const handleSortChange = (event) => {
-        setLocalSortOrder(event.target.value);
-        setSortOrder(event.target.value);  // Ensure immediate update to parent component's state
+        const newSortOrder = event.target.value;
+        setLocalSortOrder(newSortOrder);
+        setSortOrder(newSortOrder);  // Update parent component immediately
     };
 
     return (
@@ -73,7 +82,7 @@ export const Filters = ({ setSearchQuery, setSortOrder, setSeverity, setStatus }
                             <input
                                 type="checkbox"
                                 className="form-checkbox mr-2 rounded text-blue-500"
-                                onChange={() => handleCheckboxChange(level.toLowerCase(), setLocalSeverity, localSeverity)}
+                                onChange={() => handleCheckboxChange(level.toLowerCase(), setLocalSeverity, localSeverity, "severityFilter")}
                                 checked={localSeverity.includes(level.toLowerCase())}
                             />
                             {level}
@@ -88,7 +97,7 @@ export const Filters = ({ setSearchQuery, setSortOrder, setSeverity, setStatus }
                             <input
                                 type="checkbox"
                                 className="form-checkbox mr-2 rounded text-blue-500"
-                                onChange={() => handleCheckboxChange(statusValue.toLowerCase(), setLocalStatus, localStatus)}
+                                onChange={() => handleCheckboxChange(statusValue.toLowerCase(), setLocalStatus, localStatus, "statusFilter")}
                                 checked={localStatus.includes(statusValue.toLowerCase())}
                             />
                             {statusValue}
